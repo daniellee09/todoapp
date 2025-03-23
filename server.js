@@ -28,17 +28,21 @@ app.get('/', (req, res) => {
     res.render('index', { todos }); // todos 배열을 index.ejs에 전달
   });
   
+  // 할 일 목록 조회용 (JSON 응답)
+app.get('/todos', (req, res) => {
+  res.json(todos); // todos 배열을 그대로 보냄
+});
 
 // POST 요청 처리
 app.post('/submit', (req, res) => {
-    const todo = req.body.todo;
-    const dueDate = req.body.dueDate;
-    // 새로운 할 일 추가
-    todos.push({ todo, dueDate });
+  const todo = req.body.todo;
+  const dueDate = req.body.dueDate;
+  todos.push({ todo, dueDate });
 
-    console.log(`Received Todo: ${todo}, Due Date: ${dueDate}`);
-    res.send(`할 일이 저장되었습니다! <br> 내용: ${todo} <br> 마감일: ${dueDate}`);
-  });
+  console.log(`Received Todo: ${todo}, Due Date: ${dueDate}`);
+  res.json({ message: '할 일이 저장되었습니다!' }); // JSON 응답
+});
+
 
 app.post('/delete', (req,res) => {
   const index = req.body.index;
